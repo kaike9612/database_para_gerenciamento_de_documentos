@@ -38,10 +38,6 @@ Sistema completo de gerenciamento de documentos desenvolvido em Next.js para con
 Email: admin@exemplo.com
 Senha: 123456
 
-Email: ti@exemplo.com
-Senha: 123456
-\`\`\`
-
 ### Usuários Comuns
 \`\`\`
 Email: usuario@exemplo.com
@@ -62,50 +58,6 @@ Senha: 123456
 - **Exportação**: jsPDF, xlsx
 - **Ícones**: Lucide React
 - **Fontes**: Geist Sans & Geist Mono
-
-## 📦 Instalação e Execução
-
-### Pré-requisitos
-- Node.js 18 ou superior
-- npm, yarn ou pnpm
-
-### Passos para instalação
-
-1. **Clone o repositório**
-\`\`\`bash
-git clone https://github.com/seu-usuario/document-management-system.git
-cd document-management-system
-\`\`\`
-
-2. **Instale as dependências**
-\`\`\`bash
-npm install
-# ou
-yarn install
-# ou
-pnpm install
-\`\`\`
-
-3. **Execute o projeto em desenvolvimento**
-\`\`\`bash
-npm run dev
-# ou
-yarn dev
-# ou
-pnpm dev
-\`\`\`
-
-4. **Acesse no navegador**
-\`\`\`
-http://localhost:3000
-\`\`\`
-
-## 🏗️ Build para Produção
-
-\`\`\`bash
-npm run build
-npm start
-\`\`\`
 
 ## 📁 Estrutura do Projeto
 
@@ -179,24 +131,6 @@ Atualmente, o sistema utiliza **localStorage** para armazenamento temporário do
 3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
 4. Push para a branch (`git push origin feature/NovaFuncionalidade`)
 5. Abra um Pull Request
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 🐛 Reportar Bugs
-
-Encontrou um bug? Abra uma [issue](https://github.com/seu-usuario/document-management-system/issues) descrevendo:
-- Passos para reproduzir
-- Comportamento esperado
-- Comportamento atual
-- Screenshots (se aplicável)
-
-## 📞 Suporte
-
-Para dúvidas e suporte:
-- Abra uma [issue](https://github.com/seu-usuario/document-management-system/issues)
-- Consulte a [documentação](https://github.com/seu-usuario/document-management-system/wiki)
 
 ---
 
