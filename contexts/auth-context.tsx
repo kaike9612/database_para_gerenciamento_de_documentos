@@ -23,14 +23,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<User | null>(null)
 
-  const ADMIN_EMAIL = "admin@exemplo.com"
-  const ADMIN_PASSWORD = "123456"
-  const ADMIN2_EMAIL = "ti@exemplo.com"
-  const ADMIN2_PASSWORD = "123456"
-  const USER_EMAIL = "usuario@exemplo.com"
-  const USER_PASSWORD = "123456"
-  const USER2_EMAIL = "user@exemplo.com"
-  const USER2_PASSWORD = "123456"
+  const ADMIN_EMAIL = "ti@laticiniossantana.com.br"
+  const ADMIN_PASSWORD = "221080Ls"
+  const ADMIN2_EMAIL = "admin@laticiniossantana.com.br"
+  const ADMIN2_PASSWORD = "admin123Ls"
+  const USER_EMAIL = "marlene@laticiniossantana.com.br"
+  const USER_PASSWORD = "221224Ls"
+  const USER2_EMAIL = "br@laticiniossantana.com.br"
+  const USER2_PASSWORD = "221224Ls"
 
   useEffect(() => {
     const savedAuth = localStorage.getItem("auth")
@@ -45,13 +45,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let userData: User | null = null
 
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      userData = { email, role: "admin", name: "Administrador" }
-    } else if (email === ADMIN2_EMAIL && password === ADMIN2_PASSWORD) {
       userData = { email, role: "admin", name: "Administrador TI" }
+    } else if (email === ADMIN2_EMAIL && password === ADMIN2_PASSWORD) {
+      userData = { email, role: "admin", name: "Administrador Geral" }
     } else if (email === USER_EMAIL && password === USER_PASSWORD) {
-      userData = { email, role: "user", name: "Usuário Padrão" }
+      userData = { email, role: "user", name: "Marlene" }
     } else if (email === USER2_EMAIL && password === USER2_PASSWORD) {
-      userData = { email, role: "user", name: "Usuário Comum" }
+      userData = { email, role: "user", name: "BR User" }
     } else {
       const users = JSON.parse(localStorage.getItem("system_users") || "[]")
       const foundUser = users.find((u: any) => u.email === email && u.password === password)

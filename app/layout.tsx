@@ -8,7 +8,7 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "Base para Cadastramento de Notas",
   description: "Sistema de gerenciamento de documentos",
-    generator: 'v0.app'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
