@@ -34,19 +34,17 @@ Sistema completo de gerenciamento de documentos desenvolvido em Next.js para con
 ## 👥 Usuários de Teste
 
 ### Administradores
-\`\`\`
+
 Email: admin@exemplo.com
 Senha: 123456
-\`\`\`
 
 ### Usuários Comuns
-\`\`\`
+
 Email: usuario@exemplo.com
 Senha: 123456
 
 Email: user@exemplo.com
 Senha: 123456
-\`\`\`
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -171,24 +169,6 @@ Atualmente, o sistema utiliza **localStorage** para armazenamento temporário do
 3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
 4. Push para a branch (`git push origin feature/NovaFuncionalidade`)
 5. Abra um Pull Request
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 🐛 Reportar Bugs
-
-Encontrou um bug? Abra uma [issue](https://github.com/kaike9612/database_base_para_cadastramento_de_notas/issues) descrevendo:
-- Passos para reproduzir
-- Comportamento esperado
-- Comportamento atual
-- Screenshots (se aplicável)
-
-## 📞 Suporte
-
-Para dúvidas e suporte:
-- Abra uma [issue](https://github.com/kaike9612/database_base_para_cadastramento_de_notas/issues)
-- Consulte a [documentação](https://github.com/kaike9612/database_base_para_cadastramento_de_notas/wiki)
 
 ---
 
