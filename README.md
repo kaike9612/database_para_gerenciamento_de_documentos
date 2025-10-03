@@ -38,9 +38,6 @@ Sistema completo de gerenciamento de documentos desenvolvido em Next.js para con
 Email: admin@exemplo.com
 Senha: 123456
 
-Email: ti@exemplo.com
-Senha: 123456
-
 ### Usuários Comuns
 
 Email: usuario@exemplo.com
