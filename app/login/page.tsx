@@ -30,12 +30,7 @@ export default function LoginPage() {
     const success = login(email, password)
 
     if (success) {
-      const authData = JSON.parse(localStorage.getItem("auth") || "{}")
-      if (authData.user?.role === "admin") {
-        router.push("/admin")
-      } else {
-        router.push("/dashboard")
-      }
+      router.push("/dashboard")
     } else {
       setError("Email ou senha incorretos")
     }

@@ -31,6 +31,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const USER_PASSWORD = "221224Ls"
   const USER2_EMAIL = "br@laticiniossantana.com.br"
   const USER2_PASSWORD = "221224Ls"
+  const USER4_EMAIL = "jane@laticiniossantana.com.br"
+  const USER4_PASSWORD = "221224Ls"
+  const USER5_EMAIL = "fsj@laticiniossantana.com.br"
+  const USER5_PASSWORD = "221224Ls"
 
   useEffect(() => {
     const savedAuth = localStorage.getItem("auth")
@@ -52,6 +56,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       userData = { email, role: "user", name: "Marlene" }
     } else if (email === USER2_EMAIL && password === USER2_PASSWORD) {
       userData = { email, role: "user", name: "BR User" }
+    } else if (email === USER4_EMAIL && password === USER4_PASSWORD) {
+      userData = { email, role: "user", name: "Jane" }
+    } else if (email === USER5_EMAIL && password === USER5_PASSWORD) {
+      userData = { email, role: "user", name: "FSJ User" }
     } else {
       const users = JSON.parse(localStorage.getItem("system_users") || "[]")
       const foundUser = users.find((u: any) => u.email === email && u.password === password)

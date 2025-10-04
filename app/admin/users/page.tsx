@@ -61,20 +61,59 @@ export default function UsersManagementPage() {
   const loadUsers = () => {
     const savedUsers = JSON.parse(localStorage.getItem("system_users") || "[]")
 
-    const defaultUser = {
-      id: "default-marlene",
-      firstName: "Marlene",
-      lastName: "Santos",
-      email: "marlene@laticiniossantana.com.br",
-      base: "Lauro de Freitas",
-      password: "221224Ls",
-      createdAt: "2024-01-01T00:00:00.000Z",
-    }
+    const defaultUsers = [
+      {
+        id: "default-marlene",
+        firstName: "Marlene",
+        lastName: "Santos",
+        email: "marlene@laticiniossantana.com.br",
+        base: "Lauro de Freitas",
+        password: "221224Ls",
+        createdAt: "2024-01-01T00:00:00.000Z",
+      },
+      {
+        id: "default-br",
+        firstName: "BR",
+        lastName: "User",
+        email: "br@laticiniossantana.com.br",
+        base: "Barros Reis",
+        password: "221224Ls",
+        createdAt: "2024-01-01T00:00:00.000Z",
+      },
+      {
+        id: "default-fsj",
+        firstName: "FSJ",
+        lastName: "User",
+        email: "fsj@laticiniossantana.com.br",
+        base: "Feira de São Joaquim",
+        password: "221224Ls",
+        createdAt: "2024-01-01T00:00:00.000Z",
+      },
+      {
+        id: "default-admin",
+        firstName: "Admin",
+        lastName: "User",
+        email: "admin@laticiniossantana.com.br",
+        base: "Galpão",
+        password: "admin123Ls",
+        createdAt: "2024-01-01T00:00:00.000Z",
+      },
+      {
+        id: "default-jane",
+        firstName: "Jane",
+        lastName: "Silva",
+        email: "jane@laticiniossantana.com.br",
+        base: "Lauro de Freitas",
+        password: "221224Ls",
+        createdAt: "2024-01-01T00:00:00.000Z",
+      },
+    ]
 
-    const marleneExists = savedUsers.some((user: User) => user.email === "marlene@laticiniossantana.com.br")
+    const existingEmails = savedUsers.map((user: User) => user.email)
+    const usersToAdd = defaultUsers.filter((user) => !existingEmails.includes(user.email))
 
-    if (!marleneExists) {
-      const updatedUsers = [defaultUser, ...savedUsers]
+    if (usersToAdd.length > 0) {
+      const updatedUsers = [...usersToAdd, ...savedUsers]
       localStorage.setItem("system_users", JSON.stringify(updatedUsers))
       setUsers(updatedUsers)
     } else {

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, Settings, FileText, LogOut } from "lucide-react"
+import { Users, Settings, FileText, LogOut, Upload } from "lucide-react"
 
 export default function AdminPage() {
   const { isAuthenticated, isAdmin, logout, user } = useAuth()
@@ -35,10 +35,20 @@ export default function AdminPage() {
               <h1 className="text-xl font-semibold text-gray-900">Painel Administrativo</h1>
               <p className="text-sm text-gray-600">Bem-vindo, {user?.name}</p>
             </div>
-            <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2 bg-transparent">
-              <LogOut className="h-4 w-4" />
-              Sair
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={() => router.push("/dashboard")}
+                className="flex items-center gap-2 bg-transparent"
+              >
+                <Upload className="h-4 w-4" />
+                Cadastrar Documentos
+              </Button>
+              <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2 bg-transparent">
+                <LogOut className="h-4 w-4" />
+                Sair
+              </Button>
+            </div>
           </div>
         </div>
       </header>

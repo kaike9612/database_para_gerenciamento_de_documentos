@@ -245,6 +245,16 @@ export default function DashboardPage() {
               <p className="text-sm text-gray-600">Bem-vindo, {user?.name || user?.email}</p>
             </div>
             <div className="flex items-center gap-2">
+              {user?.role === "admin" && (
+                <Button
+                  variant="outline"
+                  onClick={() => router.push("/admin")}
+                  className="flex items-center gap-2 bg-transparent"
+                >
+                  <BarChart3 className="h-4 w-4" />
+                  Painel Admin
+                </Button>
+              )}
               <Button
                 variant="outline"
                 onClick={() => router.push("/dashboard/reports")}

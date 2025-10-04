@@ -39,6 +39,8 @@ export default function AdminReportsPage() {
   const [users, setUsers] = useState<User[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedUser, setSelectedUser] = useState<string>("all")
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
 
   useEffect(() => {
     if (!isAuthenticated || !isAdmin) {
@@ -49,11 +51,9 @@ export default function AdminReportsPage() {
   }, [isAuthenticated, isAdmin, router])
 
   const loadData = () => {
-    // Carregar todos os documentos do sistema
     const allDocuments = JSON.parse(localStorage.getItem("all_documents") || "[]")
     setDocuments(allDocuments)
 
-    // Carregar usuários
     const systemUsers = JSON.parse(localStorage.getItem("system_users") || "[]")
     setUsers(systemUsers)
   }
@@ -73,7 +73,22 @@ export default function AdminReportsPage() {
       doc.pagoPor.toLowerCase().includes(searchTerm.toLowerCase()) ||
       doc.descricao.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesUser = selectedUser === "all" || doc.userId === selectedUser
-    return matchesSearch && matchesUser
+
+    let matchesDate = true
+    if (startDate || endDate) {
+      const docDate = new Date(doc.dataPagamento)
+      if (startDate) {
+        const start = new Date(startDate)
+        matchesDate = matchesDate && docDate >= start
+      }
+      if (endDate) {
+        const end = new Date(endDate)
+        end.setHours(23, 59, 59, 999)
+        matchesDate = matchesDate && docDate <= end
+      }
+    }
+
+    return matchesSearch && matchesUser && matchesDate
   })
 
   const getUserName = (userId: string) => {
@@ -166,54 +181,80 @@ export default function AdminReportsPage() {
             <CardTitle>Filtros e Exportação</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col md:flex-row gap-4 items-end">
-              <div className="flex-1">
-                <label className="text-sm font-medium mb-2 block">Buscar</label>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    placeholder="Buscar por fornecedor, pago por ou descrição..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
-                  />
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col md:flex-row gap-4 items-end">
+                <div className="flex-1">
+                  <label className="text-sm font-medium mb-2 block">Buscar</label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input
+                      placeholder="Buscar por fornecedor, pago por ou descrição..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+
+                <div className="min-w-[200px]">
+                  <label className="text-sm font-medium mb-2 block">Filtrar por Usuário</label>
+                  <select
+                    value={selectedUser}
+                    onChange={(e) => setSelectedUser(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="all">Todos os usuários</option>
+                    {users.map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.name} {user.lastName} ({user.base})
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
-              <div className="min-w-[200px]">
-                <label className="text-sm font-medium mb-2 block">Filtrar por Usuário</label>
-                <select
-                  value={selectedUser}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="all">Todos os usuários</option>
-                  {users.map((user) => (
-                    <option key={user.id} value={user.id}>
-                      {user.name} {user.lastName} ({user.base})
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <div className="flex flex-col md:flex-row gap-4 items-end">
+                <div className="flex-1">
+                  <label className="text-sm font-medium mb-2 block">Data Inicial</label>
+                  <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                </div>
 
-              <div className="flex gap-2">
+                <div className="flex-1">
+                  <label className="text-sm font-medium mb-2 block">Data Final</label>
+                  <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                </div>
+
                 <Button
-                  onClick={() => exportToPDF(filteredDocuments)}
-                  className="flex items-center gap-2"
-                  disabled={filteredDocuments.length === 0}
-                >
-                  <Download className="h-4 w-4" />
-                  PDF
-                </Button>
-                <Button
-                  onClick={() => exportToExcel(filteredDocuments)}
                   variant="outline"
-                  className="flex items-center gap-2"
-                  disabled={filteredDocuments.length === 0}
+                  onClick={() => {
+                    setStartDate("")
+                    setEndDate("")
+                    setSearchTerm("")
+                    setSelectedUser("all")
+                  }}
                 >
-                  <Download className="h-4 w-4" />
-                  Excel
+                  Limpar Filtros
                 </Button>
+
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => exportToPDF(filteredDocuments)}
+                    className="flex items-center gap-2"
+                    disabled={filteredDocuments.length === 0}
+                  >
+                    <Download className="h-4 w-4" />
+                    PDF
+                  </Button>
+                  <Button
+                    onClick={() => exportToExcel(filteredDocuments)}
+                    variant="outline"
+                    className="flex items-center gap-2"
+                    disabled={filteredDocuments.length === 0}
+                  >
+                    <Download className="h-4 w-4" />
+                    Excel
+                  </Button>
+                </div>
               </div>
             </div>
           </CardContent>
