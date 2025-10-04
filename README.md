@@ -2,8 +2,6 @@
 
 Sistema completo de gerenciamento de documentos desenvolvido em Next.js para controle e organização de notas fiscais, recibos e documentos empresariais.
 
-![Tela de Login](https://github.com/user-attachments/assets/login-screen.png)
-
 ## 🚀 Funcionalidades Principais
 
 ### 👤 **Sistema de Autenticação**
