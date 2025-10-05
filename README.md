@@ -92,7 +92,7 @@ yarn dev
 
 ## 📁 Estrutura do Projeto
 
-\`\`\`
+```
 ├── app/
 │   ├── admin/              # Páginas administrativas
 │   ├── dashboard/          # Dashboard principal
@@ -108,7 +108,7 @@ yarn dev
 │   └── utils.ts           # Utilitários gerais
 └── types/
     └── document.ts        # Tipos TypeScript
-\`\`\`
+```
 
 ## 🔄 Roadmap de Melhorias
 
