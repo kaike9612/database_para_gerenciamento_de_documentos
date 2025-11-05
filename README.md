@@ -59,24 +59,24 @@ Senha: 123456
 ### Passos para instalação
 
 1. **Clone o repositório**
-\`\`\`bash
+```bash
 git clone https://github.com/seu-usuario/base-cadastramento-notas.git
 cd base-cadastramento-notas
-\`\`\`
+```
 
 2. **Instale as dependências**
-\`\`\`bash
+```bash
 npm install
 # ou
 yarn install
-\`\`\`
+```
 
 3. **Execute o projeto**
-\`\`\`bash
+```bash
 npm run dev
 # ou
 yarn dev
-\`\`\`
+```
 
 ## 🌐 Deploy
 
