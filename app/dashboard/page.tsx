@@ -144,11 +144,39 @@ export default function DashboardPage() {
     setIsLoading(true)
 
     try {
-      // Converter arquivo para base64
-      const fileData = await new Promise<string>((resolve) => {
+      const fileData = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader()
-        reader.onload = () => resolve(reader.result as string)
-        reader.readAsDataURL(selectedFile)
+        const timeout = setTimeout(() => {
+          reader.abort()
+          reject(new Error("Timeout ao processar arquivo"))
+        }, 30000) // 30 segundos timeout
+
+        reader.onload = () => {
+          clearTimeout(timeout)
+          const result = reader.result as string
+          if (!result || result.length === 0) {
+            reject(new Error("Arquivo vazio ou inválido"))
+          } else {
+            resolve(result)
+          }
+        }
+
+        reader.onerror = () => {
+          clearTimeout(timeout)
+          reject(new Error(`Erro ao ler arquivo: ${reader.error?.message}`))
+        }
+
+        reader.onabort = () => {
+          clearTimeout(timeout)
+          reject(new Error("Leitura do arquivo foi cancelada"))
+        }
+
+        try {
+          reader.readAsDataURL(selectedFile)
+        } catch (e) {
+          clearTimeout(timeout)
+          reject(new Error(`Erro ao iniciar leitura: ${e instanceof Error ? e.message : "desconhecido"}`))
+        }
       })
 
       const newDocument: Document = {
@@ -160,7 +188,7 @@ export default function DashboardPage() {
         descricao: formData.descricao,
         pagoPor: formData.pagoPor,
         dataPagamento: formData.dataPagamento,
-        valorPago: formData.valorPago, // incluído valor pago no documento
+        valorPago: formData.valorPago,
         createdAt: new Date().toISOString(),
         userId: user?.email || "",
       }
@@ -173,14 +201,16 @@ export default function DashboardPage() {
         descricao: "",
         pagoPor: "",
         dataPagamento: "",
-        valorPago: "", // limpar campo valor pago
+        valorPago: "",
       })
       setSelectedFile(null)
       setFileError("")
 
       setMessage("Documento cadastrado com sucesso!")
     } catch (error) {
-      setMessage("Erro ao processar o arquivo")
+      const errorMessage = error instanceof Error ? error.message : "Erro desconhecido ao processar arquivo"
+      console.error("[v0] Erro no handleSubmit:", errorMessage)
+      setMessage(`Erro ao processar o arquivo: ${errorMessage}`)
     }
 
     setIsLoading(false)
