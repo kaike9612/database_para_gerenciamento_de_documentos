@@ -14,17 +14,17 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Upload, FileText, LogOut, Eye, BarChart3, FileSpreadsheet, FileImage } from "lucide-react"
 import { exportToPDF, exportToExcel } from "@/lib/export-utils"
 import FileUpload from "@/components/file-upload"
+import { openIndexedDB, saveFileToIndexedDB } from "@/lib/indexeddb-utils"
 
 interface Document {
   id: string
   fileName: string
   fileType: string
-  fileData: string
   nomeFonte: string
   descricao: string
   pagoPor: string
   dataPagamento: string
-  valorPago: string // adicionado campo valor pago
+  valorPago: string
   createdAt: string
   userId: string
 }
@@ -47,7 +47,7 @@ export default function DashboardPage() {
     descricao: "",
     pagoPor: "",
     dataPagamento: "",
-    valorPago: "", // adicionado campo valor pago no estado
+    valorPago: "",
   })
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -69,9 +69,17 @@ export default function DashboardPage() {
   const saveDocument = (newDocument: Document) => {
     const allDocuments = JSON.parse(localStorage.getItem("all_documents") || "[]")
     const updatedAllDocuments = [...allDocuments, newDocument]
-    localStorage.setItem("all_documents", JSON.stringify(updatedAllDocuments))
 
-    // Atualizar documentos do usuário atual
+    if (JSON.stringify(updatedAllDocuments).length > 4 * 1024 * 1024) {
+      // 4MB limit
+      const sorted = updatedAllDocuments
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 100) // manter apenas últimos 100 documentos
+      localStorage.setItem("all_documents", JSON.stringify(sorted))
+    } else {
+      localStorage.setItem("all_documents", JSON.stringify(updatedAllDocuments))
+    }
+
     loadUserDocuments()
   }
 
@@ -149,7 +157,7 @@ export default function DashboardPage() {
         const timeout = setTimeout(() => {
           reader.abort()
           reject(new Error("Timeout ao processar arquivo"))
-        }, 30000) // 30 segundos timeout
+        }, 30000)
 
         reader.onload = () => {
           clearTimeout(timeout)
@@ -183,7 +191,6 @@ export default function DashboardPage() {
         id: Date.now().toString(),
         fileName: selectedFile.name,
         fileType: selectedFile.type,
-        fileData,
         nomeFonte: formData.nomeFonte,
         descricao: formData.descricao,
         pagoPor: formData.pagoPor,
@@ -193,9 +200,11 @@ export default function DashboardPage() {
         userId: user?.email || "",
       }
 
+      const db = await openIndexedDB()
+      await saveFileToIndexedDB(db, newDocument.id, fileData)
+
       saveDocument(newDocument)
 
-      // Limpar formulário
       setFormData({
         nomeFonte: "",
         descricao: "",
@@ -209,7 +218,6 @@ export default function DashboardPage() {
       setMessage("Documento cadastrado com sucesso!")
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Erro desconhecido ao processar arquivo"
-      console.error("[v0] Erro no handleSubmit:", errorMessage)
       setMessage(`Erro ao processar o arquivo: ${errorMessage}`)
     }
 
